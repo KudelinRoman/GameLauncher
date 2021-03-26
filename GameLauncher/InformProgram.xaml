@@ -1,0 +1,23 @@
+﻿<Window x:Class="GameLauncher.InformProgram"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameLauncher"
+        mc:Ignorable="d"
+        Title="InformProgram" Height="498.091" Width="600.764">
+    <Grid>
+        <TextBox x:Name="NameProg" HorizontalAlignment="Left" Height="23" Margin="112,52,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Название:" HorizontalAlignment="Left" Margin="33,46,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBox x:Name="DescriotionsProg" HorizontalAlignment="Left" Height="58" Margin="112,86,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="396"/>
+        <Label Content="Описание:" HorizontalAlignment="Left" Margin="33,80,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Button Content="Обзор" HorizontalAlignment="Left" Margin="523,149,0,0" VerticalAlignment="Top" Width="49" Height="35" RenderTransformOrigin="0.514,0.618" FontSize="14" Click="Button_Click"/>
+        <TextBox x:Name="PatchProg" HorizontalAlignment="Left" Height="23" Margin="146,155,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="362" FontSize="14"/>
+        <Label Content="Расположение:" HorizontalAlignment="Left" Margin="33,149,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Image x:Name="ImgProg" HorizontalAlignment="Left" Height="240" Margin="163,202,0,0" VerticalAlignment="Top" Width="160"/>
+        <Button Content="Обзор" HorizontalAlignment="Left" Margin="92,246,0,0" VerticalAlignment="Top" Width="49" Height="34" FontSize="14" Click="Button_Click_1"/>
+        <Button Content="Сохранить" HorizontalAlignment="Left" Margin="437,403,0,0" VerticalAlignment="Top" Width="135" Height="39" FontSize="14" Click="Button_Click_2"/>
+        <Label Content="Изображение:" HorizontalAlignment="Left" Margin="33,202,0,0" VerticalAlignment="Top" FontSize="14"/>
+
+    </Grid>
+</Window>

@@ -1,0 +1,19 @@
+﻿<Window x:Class="GameLauncher.UpdateListProgram"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameLauncher"
+        mc:Ignorable="d"
+        Title="UpdateListProgram" Height="651.527" Width="795.42">
+    <Grid Margin="0,0,0,3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35*"/>
+            <RowDefinition Height="274*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Выбрать отдельную программу" ToolTip="В данном режиме вы выбираете по одой программе (exe-файла)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="365" Height="43" FontSize="14" Click="Button_Click"/>
+        <Button Content="Выбрать папку с программами" ToolTip="В данном режиме вы выбираете заранее подготовленную папку, содержимое которой вы хотите добавить в лаунчер" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="365" Height="43" FontSize="14"/>
+        <GroupBox x:Name="BoxProg" Header="" HorizontalAlignment="Left" Height="410" Margin="44,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="694" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
+    </Grid>
+</Window>
