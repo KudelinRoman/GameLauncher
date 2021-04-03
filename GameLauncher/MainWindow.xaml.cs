@@ -156,8 +156,8 @@ namespace GameLauncher
 				button.HorizontalAlignment =  HorizontalAlignment.Center;
 				button.VerticalAlignment = VerticalAlignment.Top;
 				button.ToolTip = groupProgram.NameGroup;
-				Bitmap b = new Bitmap(groupProgram.IconsGroup);
-				var brush = new ImageBrush(Convert(b));
+				var brush = new ImageBrush();
+				brush.ImageSource = new BitmapImage(new Uri(groupProgram.IconsGroup, UriKind.Relative));
 				//var brushBorder = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255,255,255,255));
 				//button.BorderBrush = brushBorder;
 				brush.TileMode = TileMode.None;

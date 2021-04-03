@@ -84,8 +84,9 @@ namespace GameLauncher
 				grid.RowDefinitions.Add(row);
 				//Создание картинки для отображения иконки
 				System.Windows.Controls.Image img = new System.Windows.Controls.Image();
-				Bitmap b = new Bitmap(infr.IconsProg);
-				img.Source = Convert(b);
+				img.Source = BitmapFrame.Create(new Uri(infr.IconsProg));
+				img.IsEnabled = true;
+				img.Visibility = Visibility.Visible;
 				img.Width = 30;
 				img.Height = 30;
 				img.Stretch = Stretch.Fill;
@@ -141,7 +142,9 @@ namespace GameLauncher
 		/// <param name="e"></param>
 		private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
 		{
-
+			Button button = (Button)sender;
+			InformProgram inf = new InformProgram(GlobalParam.GlobalInfoProg[(int)button.Tag]);
+			inf.ShowDialog();
 		}
 		/// <summary>
 		/// Конвертирует картинку

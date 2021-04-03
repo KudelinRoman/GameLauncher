@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace GameLauncher
 {
@@ -23,7 +25,7 @@ namespace GameLauncher
 		/// <summary>
 		/// Переменная хранящяя изображение ярлыка для программы.
 		/// </summary>
-		public Image IconsProg { get; set; }
+		public string IconsProg { get; set; }
 		/// <summary>
 		/// Переменная хранящая краткое описание программы.
 		/// </summary>
@@ -35,13 +37,15 @@ namespace GameLauncher
 		/// <param name="LocationExeFile">Расположение exe-файла программы</param>
 		/// <param name="Icons">Изображение, если null, то применяется изображение exe-файла</param>
 		/// <param name="Desription">Краткое описание</param>
-		public InformationProgramm(string Name, string LocationExeFile, Image Icons, string Desription)
+		public InformationProgramm(string Name, string LocationExeFile, string Icons, string Desription)
 		{
 			this.NameProgramm = Name;
 			this.LocationExeFile = LocationExeFile;
 			if (Icons == null)
 			{
-				this.IconsProg = Bitmap.FromFile(LocationExeFile);
+				String filePath = AppDomain.CurrentDomain.BaseDirectory + @"ProgImage\" + Name + ".jpg";
+				Bitmap b = (Bitmap)Bitmap.FromFile(LocationExeFile);
+				b.Save(filePath, System.Drawing.Imaging.ImageFormat.Jpeg);
 			}
 			else
 			{

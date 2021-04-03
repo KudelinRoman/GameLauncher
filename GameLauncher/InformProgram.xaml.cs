@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -33,6 +34,10 @@ namespace GameLauncher
 		{
 			InitializeComponent();
 			this.information = information;
+			NameProg.Text = information.NameProgramm;
+			DescriotionsProg.Text = information.DescriptionProgram;
+			PatchProg.Text = information.LocationExeFile;
+			ImgProg.Source = BitmapFrame.Create(new Uri(information.IconsProg));
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -89,15 +94,7 @@ namespace GameLauncher
 		{
 			if(NameProg.Text.Replace(" ", "") != ""&& PatchProg.Text.Replace(" ", "") != ""&& ImgProg.Source!=null)
 			{
-				//не факт что работает)))
-				BitmapSource bitmap1 = (BitmapSource)ImgProg.Source;
-				var width = bitmap1.PixelWidth;
-				var height = bitmap1.PixelHeight;
-				var stride = width * ((bitmap1.Format.BitsPerPixel + 7) / 8);
-				var memoryBlockPointer = Marshal.AllocHGlobal(height * stride);
-				bitmap1.CopyPixels(new Int32Rect(0, 0, width, height), memoryBlockPointer, height * stride, stride);
-				var bitmap = new Bitmap(width, height, stride, System.Drawing.Imaging.PixelFormat.Format32bppPArgb, memoryBlockPointer);
-				InformationProgramm informationProgramm = new InformationProgramm(NameProg.Text, PatchProg.Text, bitmap, DescriotionsProg.Text);
+				InformationProgramm informationProgramm = new InformationProgramm(NameProg.Text, PatchProg.Text, CopyImg(), DescriotionsProg.Text);
 				GlobalParam.GlobalInfoProg.Add(informationProgramm);
 				this.Close();
 			}
@@ -105,6 +102,30 @@ namespace GameLauncher
 			{
 				MessageBox.Show("Проверьте правильность заполнения всех полей!");
 			}
+		}
+		public BitmapImage Convert(Bitmap src)
+		{
+			MemoryStream ms = new MemoryStream();
+			((Bitmap)src).Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+			BitmapImage image = new BitmapImage();
+			image.BeginInit();
+			ms.Seek(0, SeekOrigin.Begin);
+			image.StreamSource = ms;
+			image.EndInit();
+			return image;
+		}
+		/// <summary>
+		/// Метод копирующий картинку в каталог программы
+		/// </summary>
+		/// <returns> Полный путь к картинке</returns>
+		private string CopyImg()
+		{
+			String filePath = AppDomain.CurrentDomain.BaseDirectory + @"ProgImage\" + NameProg.Text + ".jpg";
+			var encoder = new PngBitmapEncoder();
+			encoder.Frames.Add(BitmapFrame.Create((BitmapSource)ImgProg.Source));
+			using (FileStream stream = new FileStream(filePath, FileMode.Create))
+				encoder.Save(stream);
+			return filePath;
 		}
 	}
 }

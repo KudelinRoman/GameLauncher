@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,7 +73,7 @@ namespace GameLauncher
 					{
 						try
 						{
-							GroupProgram NewgroupProgram = new GroupProgram(NameGroup.Text, Bitmap.FromFile(filename), DescriptoinGrooup.Text);
+							GroupProgram NewgroupProgram = new GroupProgram(NameGroup.Text, CopyImg(), DescriptoinGrooup.Text);
 							GlobalParam.GlobalGroupProgram.Add(NewgroupProgram);
 						}
 						catch (Exception)
@@ -99,6 +100,19 @@ namespace GameLauncher
 		{
 			UpdateListProgram updateList = new UpdateListProgram();
 			updateList.ShowDialog();
+		}
+		/// <summary>
+		/// Метод копирующий картинку в каталог программы
+		/// </summary>
+		/// <returns> Полный путь к картинке</returns>
+		private string CopyImg()
+		{
+			String filePath = AppDomain.CurrentDomain.BaseDirectory + @"groupImage\"+ NameGroup.Text + ".jpg" ;
+			var encoder = new PngBitmapEncoder();
+			encoder.Frames.Add(BitmapFrame.Create((BitmapSource)Img3.Source));
+			using (FileStream stream = new FileStream(filePath, FileMode.Create))
+				encoder.Save(stream);
+			return filePath;
 		}
 	}
 }
