@@ -73,8 +73,17 @@ namespace GameLauncher
 					{
 						try
 						{
-							GroupProgram NewgroupProgram = new GroupProgram(NameGroup.Text, CopyImg(), DescriptoinGrooup.Text);
-							GlobalParam.GlobalGroupProgram.Add(NewgroupProgram);
+							if (GlobalParam.GlobalInfoProg == null)
+							{
+								GroupProgram NewgroupProgram = new GroupProgram(NameGroup.Text, CopyImg(), DescriptoinGrooup.Text);
+								GlobalParam.GlobalGroupProgram.Add(NewgroupProgram);
+							}
+							else
+							{
+								GroupProgram NewgroupProgram = new GroupProgram(NameGroup.Text, CopyImg(), DescriptoinGrooup.Text, GlobalParam.GlobalInfoProg);
+								GlobalParam.GlobalGroupProgram.Add(NewgroupProgram);
+								GlobalParam.GlobalInfoProg = null;
+							}
 						}
 						catch (Exception)
 						{

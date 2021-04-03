@@ -104,25 +104,37 @@ namespace GameLauncher
 			var brush = new ImageBrush();
 			if (this.WindowState != WindowState.Maximized)
 			{
-				brush.ImageSource = new BitmapImage(new Uri("Resources/Icons/min.png", UriKind.Relative));
+				brush.ImageSource = new BitmapImage(new Uri("Icons/min.png", UriKind.Relative));
 				min_max.Background = brush;
 				this.WindowState = WindowState.Maximized;
 			}
 			else
 			{
-				brush.ImageSource = new BitmapImage(new Uri("Resources/Icons/max.png", UriKind.Relative));
+				brush.ImageSource = new BitmapImage(new Uri("Icons/max.png", UriKind.Relative));
 				min_max.Background = brush;
 				this.WindowState = WindowState.Normal;
 			}
 		}
-
+		/// <summary>
+		/// Обработчик клика по кнопке "добавить группу" (+)
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void AddGroup_Click(object sender, RoutedEventArgs e)
 		{
 			NewGroup newGroup = new NewGroup();
 			newGroup.ShowDialog();
 			UpdatePanelGroup();
 		}
-
+		/// <summary>
+		/// Обработчик клика по группе
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Group_Click(object sender, RoutedEventArgs e)
+		{
+			
+		}
 		/// <summary>
 		/// Конвертирует картинку
 		/// </summary>
@@ -140,6 +152,9 @@ namespace GameLauncher
 			return image;
 		}
 
+		/// <summary>
+		/// Метод обновляющий список групп в правой панели
+		/// </summary>
 		public void UpdatePanelGroup()
 		{
 			PanelGroup.Children.Clear();
