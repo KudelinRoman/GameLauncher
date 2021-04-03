@@ -77,7 +77,10 @@
                     </Grid>
                 </Grid>
                 <Grid x:Name="PanelTasks" Grid.Row="2" Margin="21,0">
-                    <Menu HorizontalAlignment="Left" Height="33" Margin="1" VerticalAlignment="Top" Width="33" Background="#00F0F0F0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Menu HorizontalAlignment="Left" Height="33" Margin="1,1,0,0" VerticalAlignment="Top" Width="33" Background="#00F0F0F0">
                         <Menu.BorderBrush>
                             <ImageBrush/>
                         </Menu.BorderBrush>

@@ -25,6 +25,9 @@ namespace GameLauncher
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		/// <summary>
+		/// Массив существующих процессов
+		/// </summary>
 		private Process[] localAll;
 		public MainWindow()
 		{
@@ -51,7 +54,7 @@ namespace GameLauncher
 				k++;
 			}
 			k = 0;
-			PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
+			
 			foreach (int i in idProc)
 			{
 				Button b = new Button();
@@ -60,18 +63,30 @@ namespace GameLauncher
 				b.ToolTip = localAll[i].MainWindowTitle;
 				b.Tag = i;
 				PanelTasks.Children.Add(b);
-				b.HorizontalAlignment = HorizontalAlignment.Left;
-				PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
+				b.HorizontalAlignment = HorizontalAlignment.Center;
+				ColumnDefinition c = new ColumnDefinition();
+				c.MinWidth = 37;
+				c.MaxWidth = 37;
+				PanelTasks.ColumnDefinitions.Add(c);
 				Grid.SetColumn(b, k+1);
 				k++;
 				b.MouseLeftButtonDown += ButtonProcess_MouseLeftClick;
 				var brush = new ImageBrush();
-				//using (Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(localAll[i].MainModule.FileName.ToString()))
-				//{
-				//	brush.ImageSource = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-				//}
-				//b.Background = brush;
+				try
+				{
+					localAll[i].StartInfo.UseShellExecute = false;
+					using (Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(localAll[i].MainModule.FileName))
+					{
+						brush.ImageSource = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+					}
+					b.Background = brush;
+				}
+				catch (Exception )
+				{
+
+				}
 			}
+			PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
 		}
 		private void MyWindow_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -92,6 +107,7 @@ namespace GameLauncher
 		{
 			Button b = (Button) sender;
 			Process process = localAll[(int)b.Tag];
+			process.Close();
 			
 		}
 		private void Button_Click(object sender, RoutedEventArgs e)
