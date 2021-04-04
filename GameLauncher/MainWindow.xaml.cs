@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 
 namespace GameLauncher
 {
@@ -29,6 +30,10 @@ namespace GameLauncher
 		/// Массив существующих процессов
 		/// </summary>
 		private Process[] localAll;
+		/// <summary>
+		/// Поток в котором происходит обновление панели задач
+		/// </summary>
+		private Thread ThreadUpdatePanelTask;
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -40,54 +45,81 @@ namespace GameLauncher
 			//	brush.ImageSource = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 			//}
 			//Steam.Background = brush;
-			localAll = Process.GetProcesses();
-			string s = "";
-			List<int> idProc = new List<int>();
-			int k = 0;
-			foreach (Process p in localAll)
-			{
-				if (p.MainWindowTitle.ToString() != "")
-				{
-					s += p.MainWindowTitle.ToString() + "\n";
-					idProc.Add(k);
-				}
-				k++;
-			}
-			k = 0;
-			
-			foreach (int i in idProc)
-			{
-				Button b = new Button();
-				b.Width = 33;
-				b.Height = 33;
-				b.ToolTip = localAll[i].MainWindowTitle;
-				b.Tag = i;
-				PanelTasks.Children.Add(b);
-				b.HorizontalAlignment = HorizontalAlignment.Center;
-				ColumnDefinition c = new ColumnDefinition();
-				c.MinWidth = 37;
-				c.MaxWidth = 37;
-				PanelTasks.ColumnDefinitions.Add(c);
-				Grid.SetColumn(b, k+1);
-				k++;
-				b.MouseLeftButtonDown += ButtonProcess_MouseLeftClick;
-				var brush = new ImageBrush();
-				try
-				{
-					localAll[i].StartInfo.UseShellExecute = false;
-					using (Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(localAll[i].MainModule.FileName))
-					{
-						brush.ImageSource = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-					}
-					b.Background = brush;
-				}
-				catch (Exception )
-				{
-
-				}
-			}
-			PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
+			ThreadUpdatePanelTask = new Thread(new ThreadStart(SearchProccessAndUpdatePanelTassk));
+			ThreadUpdatePanelTask.Start(); // запускаем поток
 		}
+		/// <summary>
+		/// Метод обновляющий содержимое панели задач
+		/// </summary>
+		private void SearchProccessAndUpdatePanelTassk()
+		{
+			//Использую бесконечный цикл в котором будет происходить обновление панели задач каждую секунду
+			while (true)
+			{
+				this.Dispatcher.Invoke(new Action(() => {
+					localAll = Process.GetProcesses();
+					string s = "";
+					List<int> idProc = new List<int>();
+					int k = 0;
+					foreach (Process p in localAll)
+					{
+						if (p.MainWindowTitle.ToString() != "")
+						{
+							s += p.MainWindowTitle.ToString() + "\n";
+							idProc.Add(k);
+						}
+						k++;
+					}
+					k = 0;
+					PanelTasks.ColumnDefinitions.Clear();
+					PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
+					PanelTasks.Children.Clear();
+						if (MenuPusk.Parent != null)
+						{
+							var parent = (Panel)MenuPusk.Parent;
+							parent.Children.Remove(MenuPusk);
+						}
+						PanelTasks.Children.Add(MenuPusk);
+						Grid.SetColumn(MenuPusk, k);
+
+					
+						
+					foreach (int i in idProc)
+					{
+						Button b = new Button();
+						b.Width = 33;
+						b.Height = 33;
+						b.ToolTip = localAll[i].MainWindowTitle;
+						b.Tag = i;
+						PanelTasks.Children.Add(b);
+						b.HorizontalAlignment = HorizontalAlignment.Center;
+						ColumnDefinition c = new ColumnDefinition();
+						c.MinWidth = 37;
+						c.MaxWidth = 37;
+						PanelTasks.ColumnDefinitions.Add(c);
+						Grid.SetColumn(b, k + 1);
+						k++;
+						b.MouseLeftButtonDown += ButtonProcess_MouseLeftClick;
+						var brush = new ImageBrush();
+						try
+						{
+							localAll[i].StartInfo.UseShellExecute = false;
+							using (Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(localAll[i].MainModule.FileName))
+							{
+								brush.ImageSource = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+							}
+							b.Background = brush;
+						}
+						catch (Exception)
+						{
+
+						}
+					}
+					PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
+				}));
+				Thread.Sleep(1500);
+			}
+		} 
 		private void MyWindow_Loaded(object sender, RoutedEventArgs e)
 		{
 			foreach(GroupProgram group in GlobalParam.GlobalGroupProgram)

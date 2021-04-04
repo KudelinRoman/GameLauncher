@@ -80,11 +80,11 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <Menu HorizontalAlignment="Left" Height="33" Margin="1,1,0,0" VerticalAlignment="Top" Width="33" Background="#00F0F0F0">
+                    <Menu x:Name="MenuPusk" HorizontalAlignment="Left" Height="33" Margin="1,1,0,0" VerticalAlignment="Top" Width="33" Background="#00F0F0F0">
                         <Menu.BorderBrush>
                             <ImageBrush/>
                         </Menu.BorderBrush>
-                        <MenuItem Width="33" Height="33" Foreground="#FF0C0C0C" ToolTip="Menu">
+                        <MenuItem  Width="33" Height="33" Foreground="#FF0C0C0C" ToolTip="Menu">
                             <MenuItem.Effect>
                                 <DropShadowEffect/>
                             </MenuItem.Effect>
