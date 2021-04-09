@@ -2,21 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Threading;
 
 namespace GameLauncher
@@ -31,118 +22,110 @@ namespace GameLauncher
 		/// </summary>
 		private Process[] localAll;
 		/// <summary>
-		/// Поток в котором происходит обновление панели задач
+		/// Лист с процессами у которых есть открытые окна
 		/// </summary>
-		private Thread ThreadUpdatePanelTask;
+		private List<int> idProc= new List<int>();
 		public MainWindow()
 		{
 			InitializeComponent();
-			//Bitmap bmp = default(Bitmap);
-			//bmp = new Bitmap(System.Drawing.Icon.ExtractAssociatedIcon(@"C:\Program Files (x86)\Steam\steam.exe").ToBitmap());
-			//var brush = new ImageBrush();
-			//using (Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(@"C:\Program Files (x86)\Steam\steam.exe"))
-			//{
-			//	brush.ImageSource = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-			//}
-			//Steam.Background = brush;
-			//Task.Factory.StartNew(() => {
-			//	Parallel.Invoke(() => SearchProccessAndUpdatePanelTassk());
-			//});
-
-			StartlAsync();
-		 //  ThreadUpdatePanelTask = new Thread(new ThreadStart(SearchProccessAndUpdatePanelTassk));
-		  // ThreadUpdatePanelTask.Start(); // запускаем поток
+			//Создаю поток в котором будет отслеживаться состояние процессов
+			Thread ThreadUpdatePanelTask = new Thread(new ThreadStart(SearchProccess));
+			ThreadUpdatePanelTask.Start();
 		}
 		/// <summary>
-		/// Метод обновляющий содержимое панели задач
+		/// Метод актуальность содержимого панели задач
 		/// </summary>
-		private void SearchProccessAndUpdatePanelTassk()
+		private void SearchProccess()
 		{
 			//Использую бесконечный цикл в котором будет происходить обновление панели задач каждую секунду
 			while (true)
 			{
-				this.Dispatcher.BeginInvoke(new Action(() => {
-					localAll = Process.GetProcesses();
-					string s = "";
-					List<int> idProc = new List<int>();
-					int k = 0;
-					foreach (Process p in localAll)
+				//Получаю все процессы
+				localAll = Process.GetProcesses();
+				string s = "";
+				List<int> idProc1 = new List<int>();
+				int k = 0;
+				//Выбираю процессы у которых имеются окна
+				foreach (Process p in localAll)
+				{
+					if (p.MainWindowTitle.ToString() != "")
 					{
-						if (p.MainWindowTitle.ToString() != "")
-						{
-							s += p.MainWindowTitle.ToString() + "\n";
-							idProc.Add(k);
-						}
-						k++;
+						s += p.MainWindowTitle.ToString() + "\n";
+						idProc1.Add(k);
 					}
-					k = 0;
-					PanelTasks.ColumnDefinitions.Clear();
-					PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
-					PanelTasks.Children.Clear();
-						if (MenuPusk.Parent != null)
-						{
-							var parent = (Panel)MenuPusk.Parent;
-							parent.Children.Remove(MenuPusk);
-						}
-						PanelTasks.Children.Add(MenuPusk);
-						Grid.SetColumn(MenuPusk, k);
-
-					
-						
-					foreach (int i in idProc)
+					k++;
+				}
+				//Если два листа не равны, значит появились/закылись процессы
+				//Перезаписываю idProc и вызываю метод обновления панели задач
+				if (idProc.Count!= idProc1.Count)
+				{
+					idProc.Clear();
+					foreach(int proc in idProc1)
 					{
-						Button b = new Button();
-						b.Width = 33;
-						b.Height = 33;
-						b.ToolTip = localAll[i].MainWindowTitle;
-						b.Tag = i;
-						PanelTasks.Children.Add(b);
-						b.HorizontalAlignment = HorizontalAlignment.Center;
-						ColumnDefinition c = new ColumnDefinition();
-						c.MinWidth = 37;
-						c.MaxWidth = 37;
-						PanelTasks.ColumnDefinitions.Add(c);
-						Grid.SetColumn(b, k + 1);
-						k++;
-						b.MouseLeftButtonDown += ButtonProcess_MouseLeftClick;
-						var brush = new ImageBrush();
-						try
-						{
-							localAll[i].StartInfo.UseShellExecute = false;
-							using (Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(localAll[i].MainModule.FileName))
-							{
-								brush.ImageSource = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-							}
-							b.Background = brush;
-						}
-						catch (Exception)
-						{
-
-						}
+						idProc.Add(proc);
 					}
-					PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
-				}));
+					//Вызываю метод обновления панели задач
+					UpdatePanelTassk();
+				}
 				Thread.Sleep(1000);
 			}
 		}
-		private async void StartlAsync()
+		/// <summary>
+		/// Метод обновления панели задач
+		/// </summary>
+		private void UpdatePanelTassk()
 		{
-			await Task.Run(() => SearchProccessAndUpdatePanelTassk());                // выполняется асинхронно
+			this.Dispatcher.Invoke(new Action(() =>
+			{
+				int k = 0;
+				PanelTasks.ColumnDefinitions.Clear();
+				PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
+				PanelTasks.Children.Clear();
+				if (MenuPusk.Parent != null)
+				{
+					var parent = (Panel)MenuPusk.Parent;
+					parent.Children.Remove(MenuPusk);
+				}
+				PanelTasks.Children.Add(MenuPusk);
+				Grid.SetColumn(MenuPusk, k);
+
+				foreach (int i in idProc)
+				{
+					Button b = new Button();
+					b.Width = 33;
+					b.Height = 33;
+					b.ToolTip = localAll[i].MainWindowTitle;
+					b.Tag = i;
+					PanelTasks.Children.Add(b);
+					b.HorizontalAlignment = HorizontalAlignment.Center;
+					ColumnDefinition c = new ColumnDefinition();
+					c.MinWidth = 37;
+					c.MaxWidth = 37;
+					PanelTasks.ColumnDefinitions.Add(c);
+					Grid.SetColumn(b, k + 1);
+					k++;
+					b.MouseLeftButtonDown += ButtonProcess_MouseLeftClick;
+					var brush = new ImageBrush();
+					try
+					{
+						localAll[i].StartInfo.UseShellExecute = false;
+						using (Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(localAll[i].MainModule.FileName))
+						{
+							brush.ImageSource = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+						}
+						b.Background = brush;
+					}
+					catch (Exception)
+					{
+
+					}
+				}
+				PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
+			}));
 		}
 		private void MyWindow_Loaded(object sender, RoutedEventArgs e)
 		{
-			foreach(GroupProgram group in GlobalParam.GlobalGroupProgram)
-			{
-				Button button = AddGroup;
-				button.ToolTip = group.NameGroup;
-
-				Bitmap bitmap = new Bitmap(group.IconsGroup);
-				
-				var brush = new ImageBrush();
-				brush.ImageSource = Convert(bitmap);
-				button.Background = brush;
-				button.VerticalAlignment = VerticalAlignment.Top;
-			}
+			UpdatePanelGroup();
 		}
 		private void ButtonProcess_MouseLeftClick(object sender, RoutedEventArgs e)
 		{
@@ -155,7 +138,7 @@ namespace GameLauncher
 		{
 			
 		}
-		//System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Steam\steam.exe");
+		
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			var brush = new ImageBrush();
@@ -193,24 +176,7 @@ namespace GameLauncher
 			
 		}
 		/// <summary>
-		/// Конвертирует картинку
-		/// </summary>
-		/// <param name="src"></param>
-		/// <returns></returns>
-		public BitmapImage Convert(Bitmap src)
-		{
-			MemoryStream ms = new MemoryStream();
-			((System.Drawing.Bitmap)src).Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-			BitmapImage image = new BitmapImage();
-			image.BeginInit();
-			ms.Seek(0, SeekOrigin.Begin);
-			image.StreamSource = ms;
-			image.EndInit();
-			return image;
-		}
-
-		/// <summary>
-		/// Метод обновляющий список групп в правой панели
+		/// Метод обновляющий список групп в левой панели
 		/// </summary>
 		public void UpdatePanelGroup()
 		{
@@ -230,8 +196,6 @@ namespace GameLauncher
 				button.ToolTip = groupProgram.NameGroup;
 				var brush = new ImageBrush();
 				brush.ImageSource = new BitmapImage(new Uri(groupProgram.IconsGroup, UriKind.Relative));
-				//var brushBorder = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255,255,255,255));
-				//button.BorderBrush = brushBorder;
 				brush.TileMode = TileMode.None;
 				button.Background = brush;
 				button.OpacityMask = null;
