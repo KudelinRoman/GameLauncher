@@ -12,7 +12,7 @@
             <RowDefinition Height="274*"/>
         </Grid.RowDefinitions>
         <Button Content="Выбрать отдельную программу" ToolTip="В данном режиме вы выбираете по одой программе (exe-файла)" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="365" Height="43" FontSize="14" Click="Button_Click"/>
-        <Button Content="Выбрать папку с программами" ToolTip="В данном режиме вы выбираете заранее подготовленную папку, содержимое которой вы хотите добавить в лаунчер" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="365" Height="43" FontSize="14"/>
+        <Button Content="Выбрать папку с программами" ToolTip="В данном режиме вы выбираете заранее подготовленную папку, содержимое которой вы хотите добавить в лаунчер" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="365" Height="43" FontSize="14" Click="Button_Click_1"/>
         <GroupBox x:Name="BoxProg" Header="" HorizontalAlignment="Left" Height="410" Margin="44,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="694" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
     </Grid>

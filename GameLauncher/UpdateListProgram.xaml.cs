@@ -4,12 +4,14 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -147,20 +149,50 @@ namespace GameLauncher
 			inf.ShowDialog();
 		}
 		/// <summary>
-		/// Конвертирует картинку
+		/// Метод срабатывающий при клике на кнопку "Выбрать папку с приложениями". Создает объекты согласно ярлыыкам в выбранной папке.
 		/// </summary>
-		/// <param name="src"></param>
-		/// <returns></returns>
-		public BitmapImage Convert(Bitmap src)
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
-			MemoryStream ms = new MemoryStream();
-			((Bitmap)src).Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-			BitmapImage image = new BitmapImage();
-			image.BeginInit();
-			ms.Seek(0, SeekOrigin.Begin);
-			image.StreamSource = ms;
-			image.EndInit();
-			return image;
+			using (var fldrDlg = new System.Windows.Forms.FolderBrowserDialog())
+			{
+				if (fldrDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				{
+					string[] dirs = Directory.GetFiles(fldrDlg.SelectedPath, "*.lnk");
+					foreach(string s in dirs)
+					{
+						SeriesWrite(s);
+					}
+				}
+			}
+			Updat();
 		}
+		/// <summary>
+		/// Метод создания объекта InformationProgramm исходя из его пути
+		/// </summary>
+		/// <param name="path">Путь к ярлыку</param>
+		private void SeriesWrite (string path)
+		{
+			BitmapSource imaging;
+			string[] split = Regex.Split(path, @"\\");
+			string nameProg = split[split.Length-1];
+			nameProg=nameProg.Replace(".lnk", "");
+			//создание ярлыка
+			using (Icon ico = System.Drawing.Icon.ExtractAssociatedIcon(path))
+			{
+				imaging = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+			}
+			//копирование ярлыка в папку
+			String filePath = AppDomain.CurrentDomain.BaseDirectory + @"ProgImage\" + nameProg + ".jpg";
+			var encoder = new PngBitmapEncoder();
+			encoder.Frames.Add(BitmapFrame.Create((BitmapSource)imaging));
+			using (FileStream stream = new FileStream(filePath, FileMode.Create))
+				encoder.Save(stream);
+			//создание объекта
+			InformationProgramm informationProgramm = new InformationProgramm(nameProg, path, filePath, "");
+			GlobalParam.GlobalInfoProg.Add(informationProgramm);
+		}
+		
 	}
 }

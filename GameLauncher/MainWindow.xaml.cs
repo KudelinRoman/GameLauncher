@@ -45,8 +45,13 @@ namespace GameLauncher
 			//	brush.ImageSource = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 			//}
 			//Steam.Background = brush;
-			ThreadUpdatePanelTask = new Thread(new ThreadStart(SearchProccessAndUpdatePanelTassk));
-			ThreadUpdatePanelTask.Start(); // запускаем поток
+			//Task.Factory.StartNew(() => {
+			//	Parallel.Invoke(() => SearchProccessAndUpdatePanelTassk());
+			//});
+
+			StartlAsync();
+		 //  ThreadUpdatePanelTask = new Thread(new ThreadStart(SearchProccessAndUpdatePanelTassk));
+		  // ThreadUpdatePanelTask.Start(); // запускаем поток
 		}
 		/// <summary>
 		/// Метод обновляющий содержимое панели задач
@@ -56,7 +61,7 @@ namespace GameLauncher
 			//Использую бесконечный цикл в котором будет происходить обновление панели задач каждую секунду
 			while (true)
 			{
-				this.Dispatcher.Invoke(new Action(() => {
+				this.Dispatcher.BeginInvoke(new Action(() => {
 					localAll = Process.GetProcesses();
 					string s = "";
 					List<int> idProc = new List<int>();
@@ -117,9 +122,13 @@ namespace GameLauncher
 					}
 					PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
 				}));
-				Thread.Sleep(1500);
+				Thread.Sleep(1000);
 			}
-		} 
+		}
+		private async void StartlAsync()
+		{
+			await Task.Run(() => SearchProccessAndUpdatePanelTassk());                // выполняется асинхронно
+		}
 		private void MyWindow_Loaded(object sender, RoutedEventArgs e)
 		{
 			foreach(GroupProgram group in GlobalParam.GlobalGroupProgram)
