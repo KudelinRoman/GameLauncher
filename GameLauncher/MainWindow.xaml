@@ -10,6 +10,11 @@
                         VerticalAlignment="Center" Margin="1"/>
             </Grid>
         </ControlTemplate>
+        <ContextMenu x:Key="contextMenuTassk">
+            <MenuItem Header="Закрыть"
+                      Click="Close_OnClick"
+                      CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
+        </ContextMenu>
     </Window.Resources>
     <Grid>
         <Border Width="auto" Height="auto" BorderBrush="#FF747474" BorderThickness="5"

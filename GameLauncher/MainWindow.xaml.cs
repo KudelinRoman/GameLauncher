@@ -96,6 +96,7 @@ namespace GameLauncher
 					b.Height = 33;
 					b.ToolTip = localAll[i].MainWindowTitle;
 					b.Tag = i;
+					b.ContextMenu = (ContextMenu)Resources["contextMenuTassk"];
 					PanelTasks.Children.Add(b);
 					b.HorizontalAlignment = HorizontalAlignment.Center;
 					ColumnDefinition c = new ColumnDefinition();
@@ -210,6 +211,41 @@ namespace GameLauncher
 			PanelGroup.Children.Add(AddGroup);
 			PanelGroup.RowDefinitions.Add(new RowDefinition());
 			Grid.SetRow(AddGroup, k+1);
+		}
+		/// <summary>
+		/// Метод возвращающий кнопку, у которой было вызвано контекстное меню
+		/// </summary>
+		/// <param name="sender">объект MenuItem</param>
+		/// <returns>Кнопка у которой было вызвано контекстное меню</returns>
+		private static Button FindClickedItem(object sender)
+		{
+			var mi = sender as MenuItem;
+			if (mi == null)
+			{
+				return null;
+			}
+
+			var cm = mi.CommandParameter as ContextMenu;
+			if (cm == null)
+			{
+				return null;
+			}
+
+			return cm.PlacementTarget as Button;
+		}
+		/// <summary>
+		/// Кнопка закрывания задачи
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Close_OnClick(object sender, RoutedEventArgs e)
+		{
+			var clickedItem = FindClickedItem(sender);
+			if (clickedItem != null)
+			{
+				Button b = clickedItem;
+				localAll[(int)b.Tag].Kill();
+			}
 		}
 	}
 }
