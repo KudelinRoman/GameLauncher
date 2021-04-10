@@ -195,6 +195,7 @@ namespace GameLauncher
 				button.HorizontalAlignment =  HorizontalAlignment.Center;
 				button.VerticalAlignment = VerticalAlignment.Top;
 				button.ToolTip = groupProgram.NameGroup;
+				button.ContextMenu = (ContextMenu)Resources["contextMenuGroupProgramm"];
 				var brush = new ImageBrush();
 				brush.ImageSource = new BitmapImage(new Uri(groupProgram.IconsGroup, UriKind.Relative));
 				brush.TileMode = TileMode.None;
@@ -224,17 +225,15 @@ namespace GameLauncher
 			{
 				return null;
 			}
-
 			var cm = mi.CommandParameter as ContextMenu;
 			if (cm == null)
 			{
 				return null;
 			}
-
 			return cm.PlacementTarget as Button;
 		}
 		/// <summary>
-		/// Кнопка закрывания задачи
+		/// Обработчик кнопки контекстного меню, закрывания задачи
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -245,6 +244,49 @@ namespace GameLauncher
 			{
 				Button b = clickedItem;
 				localAll[(int)b.Tag].Kill();
+			}
+		}
+		/// <summary>
+		/// Обработчик кнопки контекстного меню, удаления группы программ
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Delete_OnClick(object sender, RoutedEventArgs e)
+		{
+			var clickedItem = FindClickedItem(sender);
+			if (clickedItem != null)
+			{
+				Button b = clickedItem;
+				foreach (GroupProgram groupProgram in GlobalParam.GlobalGroupProgram)
+				{
+					if (groupProgram.NameGroup ==(string) b.Content)
+					{
+						GlobalParam.GlobalGroupProgram.Remove(groupProgram);
+					}
+				}
+				UpdatePanelGroup();
+			}
+		}
+		/// <summary>
+		/// Обработчик кнопки контекстного меню, редактирования группы программ
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Edit_OnClick(object sender, RoutedEventArgs e)
+		{
+			var clickedItem = FindClickedItem(sender);
+			if (clickedItem != null)
+			{
+				Button b = clickedItem;
+				foreach (GroupProgram groupProgram in GlobalParam.GlobalGroupProgram)
+				{
+					if (groupProgram.NameGroup == (string)b.Content)
+					{
+						NewGroup newGroup = new NewGroup(groupProgram);
+						newGroup.ShowDialog();
+					}
+				}
+				UpdatePanelGroup();
 			}
 		}
 	}

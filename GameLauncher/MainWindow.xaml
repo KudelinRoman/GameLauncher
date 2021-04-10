@@ -15,6 +15,14 @@
                       Click="Close_OnClick"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
         </ContextMenu>
+        <ContextMenu x:Key="contextMenuGroupProgramm">
+            <MenuItem Header="Редактировать"
+                      Click="Edit_OnClick"
+                      CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
+            <MenuItem Header="Удалить"
+                      Click="Delete_OnClick"
+                      CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
+        </ContextMenu>
     </Window.Resources>
     <Grid>
         <Border Width="auto" Height="auto" BorderBrush="#FF747474" BorderThickness="5"
