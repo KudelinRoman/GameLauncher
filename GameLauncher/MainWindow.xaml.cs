@@ -95,6 +95,7 @@ namespace GameLauncher
 					b.Height = 33;
 					b.ToolTip = localAll[i].MainWindowTitle;
 					b.Tag = i;
+					b.Click += ButtonProcess_MouseLeftClick;
 					b.ContextMenu = (ContextMenu)Resources["contextMenuTassk"];
 					PanelTasks.Children.Add(b);
 					b.HorizontalAlignment = HorizontalAlignment.Center;
@@ -131,14 +132,10 @@ namespace GameLauncher
 		{
 			Button b = (Button) sender;
 			Process process = localAll[(int)b.Tag];
-			process.Close();
-			
+			MinimizeOrMaximizeWindow m = new MinimizeOrMaximizeWindow();
+			m.BringWindowToFront(process);
 		}
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			
-		}
-		
+
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			var brush = new ImageBrush();
@@ -288,5 +285,6 @@ namespace GameLauncher
 				UpdatePanelGroup();
 			}
 		}
+
 	}
 }
