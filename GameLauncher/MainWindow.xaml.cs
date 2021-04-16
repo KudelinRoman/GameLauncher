@@ -105,7 +105,7 @@ namespace GameLauncher
 					PanelTasks.ColumnDefinitions.Add(c);
 					Grid.SetColumn(b, k + 1);
 					k++;
-					b.MouseLeftButtonDown += ButtonProcess_MouseLeftClick;
+					//b.MouseLeftButtonDown += ButtonProcess_MouseLeftClick;
 					var brush = new ImageBrush();
 					try
 					{
