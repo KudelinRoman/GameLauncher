@@ -61,8 +61,8 @@
                 </Button>
                 <Grid Grid.Row="1" Background="#FF575656">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40*" MaxWidth="70"/>
-                        <ColumnDefinition Width="853*"/>
+                        <ColumnDefinition MaxWidth="70" Width="40*"/>
+                        <ColumnDefinition Width="849*"/>
                     </Grid.ColumnDefinitions>
                     <Grid x:Name="PanelGroup" Grid.Column="0" Background="#FF3C3B3B" >
                         <Grid.RowDefinitions>
@@ -82,12 +82,12 @@
                         </Button>
 
                     </Grid>
-                    <Grid x:Name="CanvasProg" Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                    </Grid>
+                    <ScrollViewer Grid.Column="1" >
+                        <StackPanel x:Name="CanvasProg" >
+
+                        </StackPanel>
+                    </ScrollViewer>
+
                 </Grid>
                 <Grid x:Name="PanelTasks" Grid.Row="2" Margin="21,0">
                     <Grid.ColumnDefinitions>

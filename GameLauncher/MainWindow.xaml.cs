@@ -105,7 +105,6 @@ namespace GameLauncher
 					PanelTasks.ColumnDefinitions.Add(c);
 					Grid.SetColumn(b, k + 1);
 					k++;
-					//b.MouseLeftButtonDown += ButtonProcess_MouseLeftClick;
 					var brush = new ImageBrush();
 					try
 					{
@@ -170,7 +169,9 @@ namespace GameLauncher
 		/// <param name="e"></param>
 		private void Group_Click(object sender, RoutedEventArgs e)
 		{
-			
+			Button b = new Button();
+			b = (Button)sender;
+			UpdateCanvasProg((int)b.Tag);
 		}
 		/// <summary>
 		/// Метод обновляющий список групп в левой панели
@@ -197,6 +198,8 @@ namespace GameLauncher
 				brush.TileMode = TileMode.None;
 				button.Background = brush;
 				button.OpacityMask = null;
+				button.Tag = k;
+				button.Click += Group_Click;
 				PanelGroup.Children.Add(button);
 				RowDefinition f = new RowDefinition();
 				f.MinHeight = 40;
@@ -284,6 +287,40 @@ namespace GameLauncher
 				}
 				UpdatePanelGroup();
 			}
+		}
+		/// <summary>
+		/// Метод обновляющий список программ в соответствии с индексом выбранной группы
+		/// </summary>
+		/// <param name="index">Индекс выбранной группы</param>
+		private void UpdateCanvasProg(int index)
+		{
+			//Удаляем содержимое стекпанел
+			CanvasProg.Children.Clear();
+			CanvasProg.Orientation = Orientation.Horizontal;
+			CanvasProg.CanHorizontallyScroll = true;
+			double countProg = GlobalParam.GlobalGroupProgram[index].ProgramInfo.Count;
+			double widthCanvas = CanvasProg.ActualWidth;
+			double headthCanvas = CanvasProg.ActualHeight/2;
+			foreach(InformationProgramm informationProgramm in GlobalParam.GlobalGroupProgram[index].ProgramInfo)
+			{
+				Grid grid = new Grid();
+				Button pri = new Button();
+				pri.ToolTip = informationProgramm.DescriptionProgram;
+				pri.Height = headthCanvas;
+				pri.Width = headthCanvas;
+				var brush = new ImageBrush();
+				brush.ImageSource = new BitmapImage(new Uri(informationProgramm.IconsProg));
+				brush.TileMode = TileMode.None;
+				
+				Label namePri = new Label();
+				namePri.Content = informationProgramm.NameProgramm;
+				namePri.HorizontalAlignment = HorizontalAlignment.Center;
+				grid.Children.Add(namePri);
+				grid.Children.Add(pri);
+				CanvasProg.Children.Add(grid);
+
+			}
+			CanvasProg.UpdateLayout();
 		}
 
 	}
