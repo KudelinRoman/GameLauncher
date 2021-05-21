@@ -256,12 +256,14 @@ namespace GameLauncher
 			if (clickedItem != null)
 			{
 				Button b = clickedItem;
-				foreach (GroupProgram groupProgram in GlobalParam.GlobalGroupProgram)
+				int k = 0;
+				foreach (GroupProgram groupProgram in GlobalParam.GlobalGroupProgram.ToArray())
 				{
-					if (groupProgram.NameGroup ==(string) b.Content)
+					if (k ==(int)b.Tag)
 					{
 						GlobalParam.GlobalGroupProgram.Remove(groupProgram);
 					}
+					k++;
 				}
 				UpdatePanelGroup();
 			}
@@ -277,13 +279,15 @@ namespace GameLauncher
 			if (clickedItem != null)
 			{
 				Button b = clickedItem;
-				foreach (GroupProgram groupProgram in GlobalParam.GlobalGroupProgram)
+				int k = 0;
+				foreach (GroupProgram groupProgram in GlobalParam.GlobalGroupProgram.ToArray())
 				{
-					if (groupProgram.NameGroup == (string)b.Content)
+					if (k == (int)b.Tag)
 					{
 						NewGroup newGroup = new NewGroup(groupProgram);
 						newGroup.ShowDialog();
 					}
+					k++;
 				}
 				UpdatePanelGroup();
 			}
@@ -304,19 +308,31 @@ namespace GameLauncher
 			foreach(InformationProgramm informationProgramm in GlobalParam.GlobalGroupProgram[index].ProgramInfo)
 			{
 				Grid grid = new Grid();
+				grid.Height = headthCanvas + 90;
+				grid.VerticalAlignment = VerticalAlignment.Center;
 				Button pri = new Button();
 				pri.ToolTip = informationProgramm.DescriptionProgram;
 				pri.Height = headthCanvas;
 				pri.Width = headthCanvas;
 				var brush = new ImageBrush();
-				brush.ImageSource = new BitmapImage(new Uri(informationProgramm.IconsProg));
+				brush.ImageSource = new BitmapImage(new Uri(informationProgramm.IconsProg, UriKind.Relative));
 				brush.TileMode = TileMode.None;
-				
+				pri.OpacityMask = null;
+				pri.Background = brush;
+				pri.Padding = new Thickness(10);
+				pri.Margin = new Thickness(10);
+				pri.BorderThickness = new Thickness(0);
+				pri.Effect = new System.Windows.Media.Effects.DropShadowEffect();
+
 				Label namePri = new Label();
+				namePri.FontFamily = new System.Windows.Media.FontFamily("MV Boli");
+				namePri.FontSize = 26;
 				namePri.Content = informationProgramm.NameProgramm;
 				namePri.HorizontalAlignment = HorizontalAlignment.Center;
-				grid.Children.Add(namePri);
+				namePri.VerticalAlignment = VerticalAlignment.Bottom;
+				namePri.Effect = new System.Windows.Media.Effects.DropShadowEffect();
 				grid.Children.Add(pri);
+				grid.Children.Add(namePri);
 				CanvasProg.Children.Add(grid);
 
 			}

@@ -78,7 +78,7 @@ namespace GameLauncher
 				grid.RowDefinitions.Add(row);
 				//Создание картинки для отображения иконки
 				System.Windows.Controls.Image img = new System.Windows.Controls.Image();
-				img.Source = BitmapFrame.Create(new Uri(infr.IconsProg));
+				img.Source = new BitmapImage(new Uri(infr.IconsProg, UriKind.Relative));
 				img.IsEnabled = true;
 				img.Visibility = Visibility.Visible;
 				img.Width = 30;
