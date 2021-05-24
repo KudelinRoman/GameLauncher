@@ -131,9 +131,9 @@
                                 <MenuItem Header="Администрирование" Background="#FF787676" ></MenuItem>
                             </MenuItem>
                             <Separator Background="#FF787676" BorderBrush="#FF787676" />
-                            <MenuItem Header="Перезагрузить" Background="#FF787676" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" >
+                            <MenuItem Header="Перезагрузить" Background="#FF787676" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="MenuItem_Click" >
                             </MenuItem>
-                            <MenuItem Header="Выключить" Background="#FF787676" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" >
+                            <MenuItem Header="Выключить" Background="#FF787676" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="MenuItem_Click_1" >
                             </MenuItem>
                         </MenuItem>
                     </Menu>

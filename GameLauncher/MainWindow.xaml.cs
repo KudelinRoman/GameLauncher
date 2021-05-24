@@ -338,6 +338,24 @@ namespace GameLauncher
 			}
 			CanvasProg.UpdateLayout();
 		}
+		/// <summary>
+		/// Обработчик события "Клик" кнопки перезагрузки. Перезагружает ПК.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			Process.Start("shutdown", "/r /t 0");
+		}
+		/// <summary>
+		/// Обработчик события "Клик" кнопки выключения. Выключает ПК.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+		{
+			Process.Start("shutdown", "/s /t 0");
+		}
 
 	}
 }
