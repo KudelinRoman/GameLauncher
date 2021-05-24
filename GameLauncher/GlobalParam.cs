@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace GameLauncher
 {
@@ -22,8 +24,38 @@ namespace GameLauncher
 			get { return _groupProgram; }
 			set { _groupProgram = value; }
 		}
-		
 
-		
+		public static void SaveList()
+		{
+			//сохранение листа с группами
+			XmlSerializer formatter = new XmlSerializer(typeof(List<GroupProgram>));
+
+			using (FileStream fs = new FileStream("SavedGroup.xml", FileMode.Create))
+			{
+				formatter.Serialize(fs, _groupProgram);
+			}
+
+		}
+
+		public static void LoadLists()
+		{
+			const string savePathPrice = "SavedGroup.xml";
+			if (File.Exists(savePathPrice))
+			{
+				XmlSerializer formatter = new XmlSerializer(typeof(List<GroupProgram>));
+				try
+				{
+					using (FileStream fs = new FileStream(savePathPrice, FileMode.Open, FileAccess.Read))
+					{
+						_groupProgram = (List<GroupProgram>)formatter.Deserialize(fs);
+					}
+				}
+				catch
+				{
+
+				}
+			}	
+		}
+
 	}
 }

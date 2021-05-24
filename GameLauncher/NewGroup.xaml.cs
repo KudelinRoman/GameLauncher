@@ -109,6 +109,7 @@ namespace GameLauncher
 			{
 				MessageBox.Show("Произошла ошибка. \n Проверьте правильность заполнения всех полей.");
 			}
+			GlobalParam.SaveList();
 		}
 
 		private void ProgButAdd_Click(object sender, RoutedEventArgs e)

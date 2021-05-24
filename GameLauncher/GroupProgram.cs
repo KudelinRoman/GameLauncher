@@ -11,6 +11,7 @@ namespace GameLauncher
 	/// <summary>
 	/// Класс представляющий группу программ
 	/// </summary>
+	[Serializable]
 	public class GroupProgram
 	{
 		/// <summary>
@@ -43,6 +44,7 @@ namespace GameLauncher
 			this.DescriptionGroup = Descriptions;
 			this.ProgramInfo = InformationProgramms;
 		}
+		public GroupProgram() { }
 		/// <summary>
 		/// Конструктор определяющий экземпляр данного класса
 		/// </summary>

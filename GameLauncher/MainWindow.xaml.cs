@@ -76,6 +76,9 @@ namespace GameLauncher
 		public MainWindow()
 		{
 			InitializeComponent();
+			//Счтываем сохраненные файлы
+			GlobalParam.LoadLists();
+			UpdatePanelGroup();
 			//Создаю поток в котором будет отслеживаться состояние процессов
 			Thread ThreadUpdatePanelTask = new Thread(new ThreadStart(SearchProccess));
 			ThreadUpdatePanelTask.Start();

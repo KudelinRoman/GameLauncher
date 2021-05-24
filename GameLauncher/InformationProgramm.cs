@@ -6,6 +6,7 @@ namespace GameLauncher
 	/// <summary>
 	/// Класс, представляющий сведеия о программе
 	/// </summary>
+	[Serializable]
 	public class InformationProgramm
 	{
 		/// <summary>
@@ -47,5 +48,6 @@ namespace GameLauncher
 			}
 			this.DescriptionProgram = Desription;
 		}
+		public InformationProgramm() { }
 	}
 }
