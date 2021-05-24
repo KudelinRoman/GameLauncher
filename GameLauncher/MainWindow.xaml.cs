@@ -8,6 +8,8 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Threading;
+using System.Runtime.InteropServices;
+using System.Windows.Forms.Integration;
 
 namespace GameLauncher
 {
@@ -24,6 +26,53 @@ namespace GameLauncher
 		/// Лист с процессами у которых есть открытые окна
 		/// </summary>
 		private List<int> idProc= new List<int>();
+		#region Dll для запуска приложений
+		[DllImport("user32.dll")]
+		public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+		[DllImport("user32.dll")]
+		private static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
+		[DllImport("user32.dll")]
+		private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int uFlags);
+		#endregion
+		/// <summary>
+		/// Переменная процесса
+		/// </summary>
+		private Process process;
+		private Process _childp;
+		private IntPtr _appWin;
+
+		//Константы
+		/// <summary>
+		/// Z - последовательность
+		/// </summary>
+		private const int SWP_ZOZORDER = 0x0004;
+		/// <summary>
+		/// Не активное окно. Если этот флаг не установлен, окно активируется и перемещается в начало либо самой верхней, либо не самой верхней группы
+		/// </summary>
+		private const int SWP_NOACTIVATE = 0x0010;
+		/// <summary>
+		/// Устанавливает новый стиль окна
+		/// </summary>
+		private const int GWL_STYLE = (-16);
+		/// <summary>
+		/// Окно имеет строку заголовка
+		/// </summary>
+		private const int WS_CAPTION = 0x00C00000;
+		/// <summary>
+		/// Окно изначально видно.
+		/// </summary>
+		private const int WS_VISIBLE = 0x10000000;
+		/// <summary>
+		/// Окно имеет рамку для изменения размера
+		/// </summary>
+		private const int WS_THICKFRAME = 0x00040000;
+		const string patran = "patran";
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -323,6 +372,8 @@ namespace GameLauncher
 				pri.Margin = new Thickness(10);
 				pri.BorderThickness = new Thickness(0);
 				pri.Effect = new System.Windows.Media.Effects.DropShadowEffect();
+				pri.Click += Start_Pril_Click;
+				pri.Tag = informationProgramm.LocationExeFile;
 
 				Label namePri = new Label();
 				namePri.FontFamily = new System.Windows.Media.FontFamily("MV Boli");
@@ -355,6 +406,74 @@ namespace GameLauncher
 		private void MenuItem_Click_1(object sender, RoutedEventArgs e)
 		{
 			Process.Start("shutdown", "/s /t 0");
+		}
+		/// <summary>
+		/// Обработчик кнопки запуска приложения
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Start_Pril_Click(object sender, RoutedEventArgs e)
+		{
+			//извлекаем из тега нажатой кнопки путь к исполняемому файлу
+			Button b = (Button)sender;
+			string pathExeFile = b.Tag.ToString();
+
+			string exeName = pathExeFile;
+			var procInfo = new System.Diagnostics.ProcessStartInfo(exeName);
+			procInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(exeName);
+			procInfo.WindowStyle = ProcessWindowStyle.Normal;
+			// Start the process 
+			_childp = Process.Start(procInfo);
+			System.Windows.Forms.Panel _pnlSched = new System.Windows.Forms.Panel();
+			WindowsFormsHost windowsFormsHost1 = new WindowsFormsHost();
+
+			windowsFormsHost1.Child = _pnlSched;
+
+			ApplicationDock.Children.Add(windowsFormsHost1);
+
+			// Wait for process to be created and enter idle condition 
+			// _childp.WaitForInputIdle(); 
+			// The main window handle may be unavailable for a while, just wait for it 
+			while (_childp.MainWindowHandle == IntPtr.Zero)
+			{
+				Thread.Yield();
+			}
+
+			// Get the main handle 
+			_appWin = _childp.MainWindowHandle;
+			//  PR.WaitForInputIdle(); // true if the associated process has reached an idle state. 
+			SetParent(_appWin, _pnlSched.Handle); // loading exe to the wpf window. 
+
+
+			//this.process = Process.Start(pathExeFile);
+			//this.process.WaitForInputIdle();
+
+			//var helper = new WindowInteropHelper(GetWindow(this.ApplicationDock));
+
+			//SetParent(this.process.MainWindowHandle, helper.Handle);
+
+			//int style = GetWindowLong(this.process.MainWindowHandle, GWL_STYLE);
+			//style = style & ~WS_CAPTION & ~WS_THICKFRAME;
+			//SetWindowLong(this.process.MainWindowHandle, GWL_STYLE, style);
+			//ResizeEmbeddedApp();
+		}
+
+		private void ResizeEmbeddedApp()
+		{
+			if (this.process == null)
+			{
+				return;
+			}
+
+			UIElement container = VisualTreeHelper.GetParent(this.ApplicationDock) as UIElement;
+			System.Windows.Point relativeLocation = this.ApplicationDock.TranslatePoint(new System.Windows.Point(0, 0), container);
+		}
+
+		protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize)
+		{
+			System.Windows.Size size = base.MeasureOverride(availableSize);
+			ResizeEmbeddedApp();
+			return size;
 		}
 
 	}

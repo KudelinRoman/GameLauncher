@@ -116,8 +116,6 @@ namespace GameLauncher
 				i++;
 			}			
 		}
-
-
 		/// <summary>
 		/// Метод, удаляющий программу из списка
 		/// </summary>

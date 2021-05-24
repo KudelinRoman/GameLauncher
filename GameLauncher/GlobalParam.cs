@@ -10,12 +10,7 @@ namespace GameLauncher
 	{
 		private static List<InformationProgramm> _infoProg = new List<InformationProgramm> { };
 		private static List<GroupProgram> _groupProgram = new List<GroupProgram> { };
-		private static String _nameAdmin;
-		private static String _shift;
-		private static List<String> _user = new List<String> { };
-		private static String _timeBroni;
-		private static String _timeBroniNoch;
-		private static Boolean _OplataBroniNoch;
+
 
 		public static List<InformationProgramm> GlobalInfoProg
 		{

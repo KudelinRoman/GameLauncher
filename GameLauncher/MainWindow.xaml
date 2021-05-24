@@ -23,7 +23,7 @@
                       Click="Delete_OnClick"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
         </ContextMenu>
-        
+
     </Window.Resources>
     <Grid>
         <Border Width="auto" Height="auto" BorderBrush="#FF747474" BorderThickness="5"
@@ -141,6 +141,7 @@
                 </Grid>
             </Grid>
         </Border>
+        <DockPanel x:Name="ApplicationDock" HorizontalAlignment="Left" Height="558" LastChildFill="False" VerticalAlignment="Top" Width="899"/>
     </Grid>
 
 </Window>
