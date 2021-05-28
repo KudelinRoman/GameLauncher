@@ -478,6 +478,15 @@ namespace GameLauncher
 			ResizeEmbeddedApp();
 			return size;
 		}
-
+		/// <summary>
+		/// Открытие формы ввода пароля
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+		{
+			Password p = new Password();
+			p.ShowDialog();
+		}
 	}
 }

@@ -1,0 +1,31 @@
+﻿<Window x:Class="GameLauncher.AdminPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameLauncher"
+        mc:Ignorable="d"
+        Title="Админисстрирование" Height="512.869" Width="548.508">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="144*"/>
+            <ColumnDefinition Width="55*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Оболочка" HorizontalAlignment="Left" Height="79" Margin="10,10,0,0" VerticalAlignment="Top" Width="294"/>
+        <RadioButton Content="Эта программа" HorizontalAlignment="Left" Margin="105,33,0,0" VerticalAlignment="Top"/>
+        <RadioButton Content="explorer.exe" HorizontalAlignment="Left" Margin="105,53,0,0" VerticalAlignment="Top"/>
+        <Button Content="Сохранить" Grid.Column="1" HorizontalAlignment="Left" Margin="10,417,0,0" VerticalAlignment="Top" Width="116" Height="46"/>
+        <GroupBox Header="Пароль" HorizontalAlignment="Left" Height="79" Margin="10,107,0,0" VerticalAlignment="Top" Width="294">
+            <Label Content="Пароль:" HorizontalAlignment="Left" Height="23" Margin="10,0,0,0" VerticalAlignment="Top" Width="66"/>
+
+        </GroupBox>
+        <GroupBox Header="Временной интервал" HorizontalAlignment="Left" Height="93" Margin="10,213,0,0" VerticalAlignment="Top" Width="294">
+            <Label Content="Время начала:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+        </GroupBox>
+        <Label Content="Повтор паролья:" HorizontalAlignment="Left" Margin="27,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.52,1.115"/>
+        <PasswordBox HorizontalAlignment="Left" Name="Pass" Margin="149,126,0,0" VerticalAlignment="Top" Width="141" Height="24"/>
+        <PasswordBox HorizontalAlignment="Left" Name="dublePass" Margin="149,155,0,0" VerticalAlignment="Top" Width="141" Height="24"/>
+        <Label Content="Время завершения:" HorizontalAlignment="Left" Margin="27,263,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.053,-0.154"/>
+
+    </Grid>
+</Window>

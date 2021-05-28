@@ -12,7 +12,9 @@ namespace GameLauncher
 	{
 		private static List<InformationProgramm> _infoProg = new List<InformationProgramm> { };
 		private static List<GroupProgram> _groupProgram = new List<GroupProgram> { };
-
+		private static string _password = "";
+		private static bool _shell = false;
+		
 
 		public static List<InformationProgramm> GlobalInfoProg
 		{
@@ -23,6 +25,16 @@ namespace GameLauncher
 		{
 			get { return _groupProgram; }
 			set { _groupProgram = value; }
+		}
+		public static string Password
+		{
+			get { return _password; }
+			set { _password = value; }
+		}
+		public static bool Shell
+		{
+			get { return _shell; }
+			set { _shell = value; }
 		}
 
 		public static void SaveList()

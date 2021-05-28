@@ -128,7 +128,7 @@
                             </MenuItem>
                             <MenuItem Header="Настройки" Background="#FF787676" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" >
                                 <MenuItem Header="Приложения" Background="#FF787676"></MenuItem>
-                                <MenuItem Header="Администрирование" Background="#FF787676" ></MenuItem>
+                                <MenuItem Header="Администрирование" Background="#FF787676" Click="MenuItem_Click_2" ></MenuItem>
                             </MenuItem>
                             <Separator Background="#FF787676" BorderBrush="#FF787676" />
                             <MenuItem Header="Перезагрузить" Background="#FF787676" FontWeight="Bold" FontFamily="Times New Roman" FontSize="14" Click="MenuItem_Click" >
