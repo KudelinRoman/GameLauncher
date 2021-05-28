@@ -15,7 +15,7 @@
                       Click="Close_OnClick"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
         </ContextMenu>
-        <ContextMenu x:Key="contextMenuGroupProgramm">
+        <ContextMenu Name="contxMenuGroup" x:Key="contextMenuGroupProgramm">
             <MenuItem Header="Редактировать"
                       Click="Edit_OnClick"
                       CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
@@ -127,7 +127,7 @@
                             <MenuItem Header="Справка" Background="#FF787676" BorderBrush="Transparent" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" >
                             </MenuItem>
                             <MenuItem Header="Настройки" Background="#FF787676" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" >
-                                <MenuItem Header="Приложения" Background="#FF787676"></MenuItem>
+                                <MenuItem Header="Приложения" Background="#FF787676" Click="MenuItem_Click_3"></MenuItem>
                                 <MenuItem Header="Администрирование" Background="#FF787676" Click="MenuItem_Click_2" ></MenuItem>
                             </MenuItem>
                             <Separator Background="#FF787676" BorderBrush="#FF787676" />

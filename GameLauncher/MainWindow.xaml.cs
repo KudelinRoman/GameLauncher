@@ -253,7 +253,10 @@ namespace GameLauncher
 				button.HorizontalAlignment =  HorizontalAlignment.Center;
 				button.VerticalAlignment = VerticalAlignment.Top;
 				button.ToolTip = groupProgram.NameGroup;
-				button.ContextMenu = (ContextMenu)Resources["contextMenuGroupProgramm"];
+				if (GlobalParam.ContextMenuInGroup == true)
+				{
+					button.ContextMenu = (ContextMenu)Resources["contextMenuGroupProgramm"];
+				}
 				var brush = new ImageBrush();
 				brush.ImageSource = new BitmapImage(new Uri(groupProgram.IconsGroup, UriKind.Relative));
 				brush.TileMode = TileMode.None;
@@ -496,6 +499,13 @@ namespace GameLauncher
 		{
 			Password p = new Password();
 			p.ShowDialog();
+		}
+
+		private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+		{
+			Password password = new Password();
+			password.Owner = this;
+			password.ShowDialog();
 		}
 	}
 }

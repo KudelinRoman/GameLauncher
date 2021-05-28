@@ -27,6 +27,10 @@ namespace GameLauncher
 		/// </summary>
 		private static bool _shell = false;
 		/// <summary>
+		/// Флаг указывающий отображается ли контекстное меню у групп
+		/// </summary>
+		private static bool _contextMenuInGroup = false;
+		/// <summary>
 		/// Массив хранящий время начала и время завершения работы на ПК
 		/// </summary>
 		private static int[,] _masTime = new int[2, 2];
@@ -61,6 +65,14 @@ namespace GameLauncher
 		{
 			get { return _shell; }
 			set { _shell = value; }
+		}
+		/// <summary>
+		/// Возвращает или задает флаг, указывающий отображается ли контекстное меню у групп программ
+		/// </summary>
+		public static bool ContextMenuInGroup
+		{
+			get { return _contextMenuInGroup; }
+			set { _contextMenuInGroup = value; }
 		}
 		/// <summary>
 		/// Возвращает или задает массив времени начала и завершения работы за ПК
