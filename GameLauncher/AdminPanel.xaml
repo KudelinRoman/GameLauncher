@@ -12,9 +12,9 @@
             <ColumnDefinition Width="55*"/>
         </Grid.ColumnDefinitions>
         <GroupBox Header="Оболочка" HorizontalAlignment="Left" Height="79" Margin="10,10,0,0" VerticalAlignment="Top" Width="294"/>
-        <RadioButton Content="Эта программа" HorizontalAlignment="Left" Margin="105,33,0,0" VerticalAlignment="Top"/>
-        <RadioButton Content="explorer.exe" HorizontalAlignment="Left" Margin="105,53,0,0" VerticalAlignment="Top"/>
-        <Button Content="Сохранить" Grid.Column="1" HorizontalAlignment="Left" Margin="10,417,0,0" VerticalAlignment="Top" Width="116" Height="46"/>
+        <RadioButton x:Name="ThisProgShell" Content="Эта программа" HorizontalAlignment="Left" Margin="105,33,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="WindowsShell" Content="explorer.exe" HorizontalAlignment="Left" Margin="105,53,0,0" VerticalAlignment="Top"/>
+        <Button Content="Сохранить" Grid.Column="1" HorizontalAlignment="Left" Margin="10,417,0,0" VerticalAlignment="Top" Width="116" Height="46" FontFamily="Times New Roman" FontSize="14" Click="Button_Click"/>
         <GroupBox Header="Пароль" HorizontalAlignment="Left" Height="79" Margin="10,107,0,0" VerticalAlignment="Top" Width="294">
             <Label Content="Пароль:" HorizontalAlignment="Left" Height="23" Margin="10,0,0,0" VerticalAlignment="Top" Width="66"/>
 
@@ -26,6 +26,10 @@
         <PasswordBox HorizontalAlignment="Left" Name="Pass" Margin="149,126,0,0" VerticalAlignment="Top" Width="141" Height="24"/>
         <PasswordBox HorizontalAlignment="Left" Name="dublePass" Margin="149,155,0,0" VerticalAlignment="Top" Width="141" Height="24"/>
         <Label Content="Время завершения:" HorizontalAlignment="Left" Margin="27,263,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.053,-0.154"/>
+        <TextBox x:Name="hoursEnd" HorizontalAlignment="Left" Height="21" Margin="167,268,0,0" TextWrapping="Wrap" Text="00" VerticalAlignment="Top" Width="21" MaxLines="1" MaxLength="2" RenderTransformOrigin="0.476,0.619"/>
+        <TextBox x:Name="minuteEnd" HorizontalAlignment="Left" Height="21" Margin="193,268,0,0" TextWrapping="Wrap" Text="00" VerticalAlignment="Top" Width="21" MaxLines="1" MaxLength="2" RenderTransformOrigin="0.476,0.619"/>
+        <TextBox x:Name="hoursStart" HorizontalAlignment="Left" Height="21" Margin="167,240,0,0" TextWrapping="Wrap" Text="00" VerticalAlignment="Top" Width="21" MaxLines="1" MaxLength="2" RenderTransformOrigin="0.476,0.619"/>
+        <TextBox x:Name="minuteStart" HorizontalAlignment="Left" Height="21" Margin="193,240,0,0" TextWrapping="Wrap" Text="00" VerticalAlignment="Top" Width="21" MaxLines="1" MaxLength="2" RenderTransformOrigin="0.476,0.619"/>
 
     </Grid>
 </Window>
