@@ -15,7 +15,13 @@ namespace GameLauncher
 	/// </summary>
 	public partial class UpdateListProgram : Window
 	{
+		/// <summary>
+		/// Сетка используемая для отображения добавленных программ
+		/// </summary>
 		Grid grid = new Grid();
+		/// <summary>
+		/// Конструктор класса, добавляющий сетку на форму
+		/// </summary>
 		public UpdateListProgram()
 		{
 			InitializeComponent();	
@@ -42,6 +48,7 @@ namespace GameLauncher
 			ColumnDefinition fColumn = new ColumnDefinition();
 			fColumn.Width = GridLength.Auto;
 			grid.ColumnDefinitions.Add(fColumn);
+			Updat();
 		}
 		/// <summary>
 		/// Метод срабатывающий при клике на кнопку "Выбрать приложение". Открывает окно для создания нового объекта.

@@ -12,13 +12,26 @@ namespace GameLauncher
 	/// </summary>
 	public partial class InformProgram : Window
 	{
+		/// <summary>
+		/// Переменная используемая для записи пути к ярлыку исполняемого файла
+		/// </summary>
 		string filename = "";
+		/// <summary>
+		/// Переменная используемая для записи пути к изображению используемого в качестве иконки
+		/// </summary>
 		string filenameImage = "";
+		/// <summary>
+		/// переменная хранящая сведения о программе
+		/// </summary>
 		InformationProgramm information;
 		public InformProgram()
 		{
 			InitializeComponent();
 		}
+		/// <summary>
+		/// Конструктор класса, заполняет объекты контентом в соответствии с полученным объектом класса InformationProgramm
+		/// </summary>
+		/// <param name="information"> Информация о программе</param>
 		public InformProgram(InformationProgramm information)
 		{
 			InitializeComponent();
@@ -28,7 +41,11 @@ namespace GameLauncher
 			PatchProg.Text = information.LocationExeFile;
 			ImgProg.Source = BitmapFrame.Create(new Uri(information.IconsProg));
 		}
-
+		/// <summary>
+		/// Метод обрабатывающий нажатие по кнопке "Обзор", открывает проводник для выбора ярлыка к исполняемому файлу нужного приложения.
+		/// </summary>
+		/// <paramп name="sender"></param>
+		/// <param name="e"></param>
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
@@ -55,7 +72,11 @@ namespace GameLauncher
 				}
 			}
 		}
-
+		/// <summary>
+		/// Метод обрабатывающий нажатие по кнопке "Обзор", открывает проводник для выбора изображения которое будет являться иконкой для приложения
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
@@ -91,17 +112,6 @@ namespace GameLauncher
 			{
 				MessageBox.Show("Проверьте правильность заполнения всех полей!");
 			}
-		}
-		public BitmapImage Convert(Bitmap src)
-		{
-			MemoryStream ms = new MemoryStream();
-			((Bitmap)src).Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-			BitmapImage image = new BitmapImage();
-			image.BeginInit();
-			ms.Seek(0, SeekOrigin.Begin);
-			image.StreamSource = ms;
-			image.EndInit();
-			return image;
 		}
 		/// <summary>
 		/// Метод копирующий картинку в каталог программы

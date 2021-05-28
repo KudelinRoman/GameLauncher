@@ -38,7 +38,11 @@ namespace GameLauncher
 		{
 
 		}
-
+		/// <summary>
+		/// Обработчик нажатия кнопкой мыши по кнопке "Обзор", открывает проводник для выбора изображения для иконки группы.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
@@ -63,7 +67,11 @@ namespace GameLauncher
 				}
 			}
 		}
-
+		/// <summary>
+		/// Обработчик нажатия кнопкой мыши по кнопке "Сохранить", записывает созданную группу в список в классе GlobalParam. 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			try
@@ -111,7 +119,11 @@ namespace GameLauncher
 			}
 			GlobalParam.SaveList();
 		}
-
+		/// <summary>
+		/// Обработчик события нажатия кнопкой мыши по кнопке "Приложения", открывает форму со списком добавленных приложений
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void ProgButAdd_Click(object sender, RoutedEventArgs e)
 		{
 			UpdateListProgram updateList = new UpdateListProgram();

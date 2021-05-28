@@ -175,6 +175,11 @@ namespace GameLauncher
 				PanelTasks.ColumnDefinitions.Add(new ColumnDefinition());
 			}));
 		}
+		/// <summary>
+		/// Метод обрабатывающий событие загрузки формы, метод вызвает обновление панели с группой программ
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void MyWindow_Loaded(object sender, RoutedEventArgs e)
 		{
 			UpdatePanelGroup();
@@ -186,7 +191,11 @@ namespace GameLauncher
 			MinimizeOrMaximizeWindow m = new MinimizeOrMaximizeWindow();
 			m.BringWindowToFront(process);
 		}
-
+		/// <summary>
+		/// Метод обрабатывающий событие нажантия по кнопке "увеличить/уменьшить" , разварачивает в полное окно либо уменьшает окно.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			var brush = new ImageBrush();

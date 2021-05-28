@@ -48,6 +48,9 @@ namespace GameLauncher
 			}
 			this.DescriptionProgram = Desription;
 		}
+		/// <summary>
+		/// Пустой конструктор класса
+		/// </summary>
 		public InformationProgramm() { }
 	}
 }
