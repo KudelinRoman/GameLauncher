@@ -99,7 +99,7 @@ namespace GameLauncher
 				//Выбираю процессы у которых имеются окна
 				foreach (Process p in localAll)
 				{
-					if (p.MainWindowTitle.ToString() != "")
+					if (p.MainWindowTitle.Length >0)
 					{
 						s += p.MainWindowTitle.ToString() + "\n";
 						idProc1.Add(k);
