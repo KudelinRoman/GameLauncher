@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Forms.Integration;
+using System.IO;
 
 namespace GameLauncher
 {
@@ -78,6 +79,14 @@ namespace GameLauncher
 			InitializeComponent();
 			//Счтываем сохраненные файлы
 			GlobalParam.LoadLists();
+			if (GlobalParam.Shell == false)
+			{
+				Process.Start("explorer.exe");
+			}
+			else
+			{
+				Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CloseExplorer.bat"));
+			}
 			UpdatePanelGroup();
 			//Создаю поток в котором будет отслеживаться состояние процессов
 			Thread ThreadUpdatePanelTask = new Thread(new ThreadStart(SearchProccess));
