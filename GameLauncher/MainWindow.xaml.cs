@@ -306,7 +306,14 @@ namespace GameLauncher
 			if (clickedItem != null)
 			{
 				Button b = clickedItem;
-				localAll[(int)b.Tag].Kill();
+				try
+				{
+					localAll[(int)b.Tag].Kill();
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.Message);
+				}
 			}
 		}
 		/// <summary>

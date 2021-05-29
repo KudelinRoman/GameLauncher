@@ -136,6 +136,10 @@ namespace GameLauncher
 		private string CopyImg()
 		{
 			String filePath = AppDomain.CurrentDomain.BaseDirectory + @"groupImage\"+ NameGroup.Text + ".jpg" ;
+			if (!Directory.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "groupImage")))
+			{
+				Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "groupImage"));
+			}
 			var encoder = new PngBitmapEncoder();
 			encoder.Frames.Add(BitmapFrame.Create((BitmapSource)Img3.Source));
 			using (FileStream stream = new FileStream(filePath, FileMode.Create))
