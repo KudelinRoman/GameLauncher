@@ -38,7 +38,7 @@ namespace GameLauncher
 			this.LocationExeFile = LocationExeFile;
 			if (Icons == null)
 			{
-				String filePath = AppDomain.CurrentDomain.BaseDirectory + @"ProgImage\" + Name + ".jpg";
+				string filePath = AppDomain.CurrentDomain.BaseDirectory + @"ProgImage\" + Name + ".jpg";
 				Bitmap b = (Bitmap)Bitmap.FromFile(LocationExeFile);
 				b.Save(filePath, System.Drawing.Imaging.ImageFormat.Jpeg);
 			}
