@@ -85,15 +85,36 @@ namespace GameLauncher
 			if (GlobalParam.Shell == false)
 			{
 				Process.Start("explorer.exe");
+				ReloadForm();
 			}
 			else
 			{
 				Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CloseExplorer.bat"));
+				ReloadForm();
 			}
 			UpdatePanelGroup();
 			//Создаю поток в котором будет отслеживаться состояние процессов
 			Thread ThreadUpdatePanelTask = new Thread(new ThreadStart(SearchProccess));
 			ThreadUpdatePanelTask.Start();
+		}
+		public void ReloadForm()
+		{
+			if (GlobalParam.Shell == false)
+			{
+				this.AddGroup.Visibility = Visibility.Visible;
+				this.min_max.Visibility = Visibility.Visible;
+				this.WindowState = WindowState.Maximized;
+				GlobalParam.ContextMenuInGroup = true;
+				this.UpdatePanelGroup();
+			}
+			else
+			{
+				this.AddGroup.Visibility = Visibility.Hidden;
+				this.min_max.Visibility = Visibility.Hidden;
+				this.WindowState = WindowState.Maximized;
+				GlobalParam.ContextMenuInGroup = false;
+				this.UpdatePanelGroup();
+			}
 		}
 		/// <summary>
 		/// Метод актуальность содержимого панели задач
@@ -455,29 +476,19 @@ namespace GameLauncher
 			IntPtr windowHandle = new WindowInteropHelper(this).EnsureHandle();
 			Process p = Process.Start(pathExeFile);
 			Thread.Sleep(500);
-			p.WaitForInputIdle();
-			
-			System.Windows.Forms.Panel _pnlSched = new System.Windows.Forms.Panel();
-			SetParent(p.MainWindowHandle, windowHandle);
-			this.WindowState = WindowState.Maximized;
-		}
-
-		private void ResizeEmbeddedApp()
-		{
-			if (this.process == null)
+			try
 			{
-				return;
+				p.WaitForInputIdle();
+				System.Windows.Forms.Panel _pnlSched = new System.Windows.Forms.Panel();
+				SetParent(p.MainWindowHandle, windowHandle);
+				this.WindowState = WindowState.Maximized;
 			}
-
-			UIElement container = VisualTreeHelper.GetParent(this.ApplicationDock) as UIElement;
-			System.Windows.Point relativeLocation = this.ApplicationDock.TranslatePoint(new System.Windows.Point(0, 0), container);
-		}
-
-		protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize)
-		{
-			System.Windows.Size size = base.MeasureOverride(availableSize);
-			ResizeEmbeddedApp();
-			return size;
+			catch(Exception)
+			{
+				
+			}
+			
+			
 		}
 		/// <summary>
 		/// Открытие формы ввода пароля

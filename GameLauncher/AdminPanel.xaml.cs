@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 namespace GameLauncher
 {
@@ -59,10 +60,13 @@ namespace GameLauncher
 				if (ThisProgShell.IsChecked == true)
 				{
 					GlobalParam.Shell = true;
+					GlobalParam.ContextMenuInGroup = false;
 				}
 				else
 				{
 					GlobalParam.Shell = false;
+					Process.Start("explerer.exe");
+					GlobalParam.ContextMenuInGroup = true;
 				}
 				GlobalParam.Password = Pass.Password;
 				GlobalParam.SaveList();
