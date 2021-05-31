@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameLauncher"
         mc:Ignorable="d"
-        Title="LockWindow" Height="450" Width="800" WindowStyle="None" Background="#FF444444">
+        Title="LockWindow" Height="763.762" Width="1342.89" WindowStyle="None" Background="#FF444444">
     <Grid>
-        <GroupBox Header="Время вышло" Height="101" Margin="269,187,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="254">
+        <GroupBox Header="Время вышло" Margin="588,457,0,0" Height="101" VerticalAlignment="Top" HorizontalAlignment="Left" Width="254">
             <PasswordBox x:Name="Passwrd" Margin="67,53,67,0" VerticalAlignment="Top" Height="20"/>
         </GroupBox>
         <Button Content="Выключить" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="Button_Click"/>
-        <Button Content="Ок" HorizontalAlignment="Left" Margin="471,254,0,0" VerticalAlignment="Top" Width="38" Height="23" Click="Button_Click_1"/>
-        <Label Content="Для продолжения введите пароль:" HorizontalAlignment="Left" Margin="298,207,0,0" VerticalAlignment="Top" FontFamily="Times New Roman"/>
+        <Button Content="Ок" HorizontalAlignment="Left" Margin="787,523,0,0" VerticalAlignment="Top" Width="38" Height="23" Click="Button_Click_1" RenderTransformOrigin="8.061,11.354"/>
+        <Label Content="Для продолжения введите пароль:" HorizontalAlignment="Left" Margin="620,487,0,0" VerticalAlignment="Top" FontFamily="Times New Roman"/>
 
     </Grid>
 </Window>
