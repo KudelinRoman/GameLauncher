@@ -65,7 +65,7 @@ namespace GameLauncher
 				else
 				{
 					GlobalParam.Shell = false;
-					Process.Start("explerer.exe");
+					Process.Start("explorer.exe");
 					GlobalParam.ContextMenuInGroup = true;
 				}
 				GlobalParam.Password = Pass.Password;
