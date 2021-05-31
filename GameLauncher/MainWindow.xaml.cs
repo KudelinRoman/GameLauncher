@@ -69,7 +69,7 @@ namespace GameLauncher
 		{
 			DateTime timeStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, GlobalParam.MassTime[0, 0], GlobalParam.MassTime[0, 1], 0);
 			DateTime timeEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, GlobalParam.MassTime[1, 0], GlobalParam.MassTime[1, 1], 0);
-			if ( DateTime.Now > timeEnd || DateTime.Now < timeStart)
+			if ( (DateTime.Now > timeEnd || DateTime.Now < timeStart) && timeEnd!=timeStart)
 			{
 				LockWindow lockWindow = new LockWindow();
 				lockWindow.Owner = this;
