@@ -44,7 +44,7 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition Height="35"></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Text="GAME-SPORTS CLUB" Padding="5" HorizontalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold" Foreground="#FF8F9093" FontFamily="MV Boli" FontSize="14">
+                <TextBlock Text=" " Padding="5" HorizontalAlignment="Center" Margin="10,0,10,0" FontWeight="Bold" Foreground="#FF8F9093" FontFamily="MV Boli" FontSize="14">
                     <TextBlock.Effect>
                         <DropShadowEffect/>
                     </TextBlock.Effect>
@@ -124,8 +124,6 @@
                             <MenuItem.Background>
                                 <ImageBrush ImageSource="Resources/Icons/menu.png"/>
                             </MenuItem.Background>
-                            <MenuItem Header="Справка" Background="#FF787676" BorderBrush="Transparent" FontFamily="Times New Roman" FontWeight="Bold" FontSize="14" >
-                            </MenuItem>
                             <MenuItem Header="Настройки" Background="#FF787676" FontFamily="Times New Roman" FontSize="14" FontWeight="Bold" >
                                 <MenuItem Header="Приложения" Background="#FF787676" Click="MenuItem_Click_3"></MenuItem>
                                 <MenuItem Header="Администрирование" Background="#FF787676" Click="MenuItem_Click_2" ></MenuItem>
