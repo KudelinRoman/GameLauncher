@@ -27,56 +27,14 @@ namespace GameLauncher
 		/// Лист с процессами у которых есть открытые окна
 		/// </summary>
 		private List<int> idProc= new List<int>();
-		#region Dll для запуска приложений
-		[DllImport("user32.dll")]
-		public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-		[DllImport("user32.dll", SetLastError = true)]
-		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+		public System.Windows.Threading.DispatcherTimer dispTimer = new System.Windows.Threading.DispatcherTimer();
+		#region Dll для запуска приложений
 
 		[DllImport("user32.dll", SetLastError = true)]
 		static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
-		[DllImport("user32.dll", SetLastError = true)]
-		static extern IntPtr FindWindow(IntPtr ZeroOnly, string lpWindowName);
-
-		[DllImport("user32.dll")]
-		private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int uFlags);
 		#endregion
-		/// <summary>
-		/// Переменная процесса
-		/// </summary>
-		private Process process;
-		private Process _childp;
-		private IntPtr _appWin;
-
-		//Константы
-		/// <summary>
-		/// Z - последовательность
-		/// </summary>
-		private const int SWP_ZOZORDER = 0x0004;
-		/// <summary>
-		/// Не активное окно. Если этот флаг не установлен, окно активируется и перемещается в начало либо самой верхней, либо не самой верхней группы
-		/// </summary>
-		private const int SWP_NOACTIVATE = 0x0010;
-		/// <summary>
-		/// Устанавливает новый стиль окна
-		/// </summary>
-		private const int GWL_STYLE = (-16);
-		/// <summary>
-		/// Окно имеет строку заголовка
-		/// </summary>
-		private const int WS_CAPTION = 0x00C00000;
-		/// <summary>
-		/// Окно изначально видно.
-		/// </summary>
-		private const int WS_VISIBLE = 0x10000000;
-		/// <summary>
-		/// Окно имеет рамку для изменения размера
-		/// </summary>
-		private const int WS_THICKFRAME = 0x00040000;
-		const string patran = "patran";
-
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -86,6 +44,7 @@ namespace GameLauncher
 			{
 				Process.Start("explorer.exe");
 				ReloadForm();
+				
 			}
 			else
 			{
@@ -96,6 +55,28 @@ namespace GameLauncher
 			//Создаю поток в котором будет отслеживаться состояние процессов
 			Thread ThreadUpdatePanelTask = new Thread(new ThreadStart(SearchProccess));
 			ThreadUpdatePanelTask.Start();
+			//присваиваем обработчик "Tick" для созданного таймера
+			dispTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+			dispTimer.Interval = new TimeSpan(0, 0, 10);
+			dispTimer.Start();
+		}
+		/// <summary>
+		/// обработчик события "Tick" для созданного таймера
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="e"></param>
+		private void dispatcherTimer_Tick(object o, EventArgs e)
+		{
+			DateTime timeStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, GlobalParam.MassTime[0, 0], GlobalParam.MassTime[0, 1], 0);
+			DateTime timeEnd = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, GlobalParam.MassTime[1, 0], GlobalParam.MassTime[1, 1], 0);
+			if ( DateTime.Now > timeEnd || DateTime.Now < timeStart)
+			{
+				LockWindow lockWindow = new LockWindow();
+				lockWindow.Owner = this;
+				lockWindow.Show();
+				dispTimer.Stop();
+				return;
+			}
 		}
 		public void ReloadForm()
 		{

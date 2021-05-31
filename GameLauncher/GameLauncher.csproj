@@ -80,6 +80,9 @@
     <Compile Include="InformProgram.xaml.cs">
       <DependentUpon>InformProgram.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LockWindow.xaml.cs">
+      <DependentUpon>LockWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MinimizeOrMaximizeWindow.cs" />
     <Compile Include="Password.xaml.cs">
       <DependentUpon>Password.xaml</DependentUpon>
@@ -92,6 +95,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InformProgram.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LockWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
