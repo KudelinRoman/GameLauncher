@@ -34,8 +34,11 @@ namespace GameLauncher
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
-		[DllImport("user32.dll")]
-		private static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+		[DllImport("user32.dll", SetLastError = true)]
+		static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		static extern IntPtr FindWindow(IntPtr ZeroOnly, string lpWindowName);
 
 		[DllImport("user32.dll")]
 		private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int uFlags);
@@ -438,6 +441,7 @@ namespace GameLauncher
 		{
 			Process.Start("shutdown", "/s /t 0");
 		}
+		
 		/// <summary>
 		/// Обработчик кнопки запуска приложения
 		/// </summary>
@@ -448,45 +452,14 @@ namespace GameLauncher
 			//извлекаем из тега нажатой кнопки путь к исполняемому файлу
 			Button b = (Button)sender;
 			string pathExeFile = b.Tag.ToString();
-
-			string exeName = pathExeFile;
-			var procInfo = new System.Diagnostics.ProcessStartInfo(exeName);
-			procInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(exeName);
-			procInfo.WindowStyle = ProcessWindowStyle.Normal;
-			// Start the process 
-			_childp = Process.Start(procInfo);
+			IntPtr windowHandle = new WindowInteropHelper(this).EnsureHandle();
+			Process p = Process.Start(pathExeFile);
+			Thread.Sleep(500);
+			p.WaitForInputIdle();
+			
 			System.Windows.Forms.Panel _pnlSched = new System.Windows.Forms.Panel();
-			WindowsFormsHost windowsFormsHost1 = new WindowsFormsHost();
-
-			windowsFormsHost1.Child = _pnlSched;
-
-			ApplicationDock.Children.Add(windowsFormsHost1);
-
-			// Wait for process to be created and enter idle condition 
-			// _childp.WaitForInputIdle(); 
-			// The main window handle may be unavailable for a while, just wait for it 
-			while (_childp.MainWindowHandle == IntPtr.Zero)
-			{
-				Thread.Yield();
-			}
-
-			// Get the main handle 
-			_appWin = _childp.MainWindowHandle;
-			//  PR.WaitForInputIdle(); // true if the associated process has reached an idle state. 
-			SetParent(_appWin, _pnlSched.Handle); // loading exe to the wpf window. 
-
-
-			//this.process = Process.Start(pathExeFile);
-			//this.process.WaitForInputIdle();
-
-			//var helper = new WindowInteropHelper(GetWindow(this.ApplicationDock));
-
-			//SetParent(this.process.MainWindowHandle, helper.Handle);
-
-			//int style = GetWindowLong(this.process.MainWindowHandle, GWL_STYLE);
-			//style = style & ~WS_CAPTION & ~WS_THICKFRAME;
-			//SetWindowLong(this.process.MainWindowHandle, GWL_STYLE, style);
-			//ResizeEmbeddedApp();
+			SetParent(p.MainWindowHandle, windowHandle);
+			this.WindowState = WindowState.Maximized;
 		}
 
 		private void ResizeEmbeddedApp()
