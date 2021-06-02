@@ -16,7 +16,7 @@ namespace GameLauncher
 		/// <summary>
 		/// Переменная хранящая иконку для группы
 		/// </summary>
-		public String IconsGroup { get; set; }
+		public string IconsGroup { get; set; }
 		/// <summary>
 		/// Переменная хранящяя краткую информацию о группе
 		/// </summary>
@@ -32,7 +32,7 @@ namespace GameLauncher
 		/// <param name="Icon">Иконка для группы</param>
 		/// <param name="Descriptions">Краткое описание</param>
 		/// <param name="InformationProgramms">Список сведений о включенных в группу программ</param>
-		public GroupProgram(string Name, String Icon, string Descriptions, List<InformationProgramm> InformationProgramms)
+		public GroupProgram(string Name, string Icon, string Descriptions, List<InformationProgramm> InformationProgramms)
 		{
 			this.NameGroup = Name;
 			this.IconsGroup = Icon;
@@ -46,7 +46,7 @@ namespace GameLauncher
 		/// <param name="Name">Название группы</param>
 		/// <param name="Icon">Иконка для группы</param>
 		/// <param name="Descriptions">Краткое описание</param>
-		public GroupProgram(string Name, String Icon, string Descriptions)
+		public GroupProgram(string Name, string Icon, string Descriptions)
 		{
 			this.NameGroup = Name;
 			this.IconsGroup = Icon;

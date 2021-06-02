@@ -28,7 +28,7 @@ namespace GameLauncher
 		/// </summary>
 		private List<int> idProc= new List<int>();
 
-		public System.Windows.Threading.DispatcherTimer dispTimer = new System.Windows.Threading.DispatcherTimer();
+		private System.Windows.Threading.DispatcherTimer dispTimer = new System.Windows.Threading.DispatcherTimer();
 		#region Dll для запуска приложений
 
 		[DllImport("user32.dll", SetLastError = true)]

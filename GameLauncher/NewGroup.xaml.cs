@@ -34,10 +34,6 @@ namespace GameLauncher
 			DescriptoinGrooup.Text = group.DescriptionGroup;
 		}
 
-		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-		{
-
-		}
 		/// <summary>
 		/// Обработчик нажатия кнопкой мыши по кнопке "Обзор", открывает проводник для выбора изображения для иконки группы.
 		/// </summary>
