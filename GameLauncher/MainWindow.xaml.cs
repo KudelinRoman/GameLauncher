@@ -75,7 +75,7 @@ namespace GameLauncher
 				lockWindow.Owner = this;
 				lockWindow.Show();
 				dispTimer.Stop();
-				return;
+
 			}
 		}
 		public void ReloadForm()
@@ -97,6 +97,7 @@ namespace GameLauncher
 				this.UpdatePanelGroup();
 			}
 		}
+
 		/// <summary>
 		/// Метод актуальность содержимого панели задач
 		/// </summary>
@@ -116,7 +117,14 @@ namespace GameLauncher
 					if (p.MainWindowTitle.Length >0)
 					{
 						s += p.MainWindowTitle.ToString() + "\n";
-						idProc1.Add(k);
+						if (GlobalParam.Shell==true && (p.ProcessName.ToString() == "Taskmgr" || p.ProcessName.ToString() == "cmd"))
+						{
+							p.Kill();
+						}
+						if (p.MainWindowTitle.ToString() != "Microsoft Text Input Application")
+						{
+							idProc1.Add(k);
+						}
 					}
 					k++;
 				}
@@ -464,9 +472,9 @@ namespace GameLauncher
 				SetParent(p.MainWindowHandle, windowHandle);
 				this.WindowState = WindowState.Maximized;
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
-				
+				MessageBox.Show(ex.Message);
 			}
 			
 			
@@ -487,6 +495,11 @@ namespace GameLauncher
 			Password password = new Password();
 			password.Owner = this;
 			password.ShowDialog();
+		}
+
+		private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			e.Cancel = true;
 		}
 	}
 }

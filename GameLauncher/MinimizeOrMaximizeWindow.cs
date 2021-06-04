@@ -6,7 +6,6 @@ namespace GameLauncher
 {
     /// <summary>
     /// Класс сворачивающий/разворачивающий окно процесса
-    /// Позаимствован с сайта https://qna.habr.com/q/527535
     /// </summary>
 	public class MinimizeOrMaximizeWindow
 	{
