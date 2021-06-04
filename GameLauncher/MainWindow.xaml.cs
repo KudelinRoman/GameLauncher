@@ -9,7 +9,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Threading;
 using System.Runtime.InteropServices;
-using System.Windows.Forms.Integration;
 using System.IO;
 
 namespace GameLauncher
